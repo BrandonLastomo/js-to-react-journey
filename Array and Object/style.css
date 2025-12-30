@@ -1,0 +1,20 @@
+table,
+th,
+tr,
+td {
+  border: solid 1px black;
+}
+
+th,
+td {
+  padding: 4px 8px;
+}
+
+input {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
