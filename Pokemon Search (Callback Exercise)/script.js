@@ -1,17 +1,25 @@
-async function getData(name) {
+// fetch using then
+function getData(name) {
   const url = "https://pokeapi.co/api/v2/pokemon/" + name;
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    throw error;
-  }
+  const data = fetch(url).then((response) => response.json());
+  return data;
 }
+
+// fetch using async await
+// async function getData(name) {
+//   const url = "https://pokeapi.co/api/v2/pokemon/" + name;
+//   try {
+//     const response = await fetch(url);
+//     if (!response.ok) {
+//       throw new Error(`Response status: ${response.status}`);
+//     }
+
+//     const result = await response.json();
+//     return result;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 function renderCard(data) {
   cardContainer.innerHTML = `
@@ -30,8 +38,16 @@ const searchInput = document.getElementById("search-input");
 const searchPokemon = document.getElementById("search-pokemon");
 const cardContainer = document.getElementById("card-container");
 
-searchPokemon.addEventListener("submit", async (e) => {
+// search btn with then
+searchPokemon.addEventListener("submit", (e) => {
   e.preventDefault();
-  const data = await getData(searchInput.value);
-  renderCard(data);
+  const name = searchInput.value;
+  const data = getData(name).then((data) => renderCard(data));
 });
+
+// search btn with async await
+// searchPokemon.addEventListener("submit", async (e) => {
+//   e.preventDefault();
+//   const data = await getData(searchInput.value);
+//   renderCard(data);
+// });
