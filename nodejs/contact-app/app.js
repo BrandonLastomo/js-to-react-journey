@@ -1,6 +1,11 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { saveDatas } from "./functions.js";
+import {
+  saveDatas,
+  displayList,
+  displayDetail,
+  deleteContact,
+} from "./functions.js";
 
 yargs(hideBin(process.argv))
   .command(
@@ -24,12 +29,38 @@ yargs(hideBin(process.argv))
       },
     },
     (argv) => {
-      const datas = {
-        name: argv.name,
-        email: argv.email,
-        numPhone: argv.numPhone,
-      };
       saveDatas(argv.name, argv.email, argv.numPhone);
+    }
+  )
+  .command("list", "Display contact list", () => {
+    displayList();
+  })
+  .command(
+    "detail",
+    "Display details of a contact",
+    {
+      name: {
+        describe: "Search contact",
+        type: "string",
+        demandOption: true,
+      },
+    },
+    (argv) => {
+      displayDetail(argv.name);
+    }
+  )
+  .command(
+    "delete",
+    "Delete a contact",
+    {
+      name: {
+        describe: "Search a contact",
+        type: "string",
+        demandOption: true,
+      },
+    },
+    (argv) => {
+      deleteContact(argv.name);
     }
   )
   .parse();
