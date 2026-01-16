@@ -1,12 +1,35 @@
-// module prep
-const { writeQuestion, saveDatas } = require("./functions");
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import { saveDatas } from "./functions.js";
 
-const main = () => {
-  const name = writeQuestion("input ur name: ");
-  const email = writeQuestion("input email: ");
-  const numPhone = writeQuestion("input num phone: ");
-
-  saveDatas(name, email, numPhone);
-};
-
-main();
+yargs(hideBin(process.argv))
+  .command(
+    "add",
+    "Save contact to file",
+    {
+      name: {
+        describe: "Input username",
+        type: "string",
+        demandOption: true,
+      },
+      email: {
+        describe: "Input user's email",
+        type: "string",
+        demandOption: false,
+      },
+      numPhone: {
+        describe: "Input user's phone number",
+        type: "string",
+        demandOption: true,
+      },
+    },
+    (argv) => {
+      const datas = {
+        name: argv.name,
+        email: argv.email,
+        numPhone: argv.numPhone,
+      };
+      saveDatas(argv.name, argv.email, argv.numPhone);
+    }
+  )
+  .parse();

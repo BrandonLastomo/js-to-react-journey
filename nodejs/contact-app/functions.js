@@ -1,33 +1,34 @@
 // module prep
-const fs = require("node:fs");
-const readline = require("node:readline");
-const { stdin: input, stdout: output } = require("node:process");
-const rl = readline.createInterface({ input, output });
-
-// create file if not exist
-if (!fs.existsSync("./contacts.json")) {
-  fs.writeFileSync("./contacts.json", "[]", "utf-8");
-}
-
-// handle callback hell
-const writeQuestion = (q) => {
-  return new Promise((resolve, reject) => {
-    rl.question(q, (data) => {
-      resolve(data); // get the data ONLY after user done inputting the data
-    });
-  });
-};
+import fs from "node:fs";
+import validator from "validator";
+import chalk from "chalk";
 
 // write datas to file
-const saveDatas = (name, email, numPhone) => {
+export const saveDatas = (name, email, numPhone) => {
   // get answers
   const datas = {
     name,
     email,
     numPhone,
   };
+
   // get current contacts list and convert it to json obj
   let contacts = JSON.parse(fs.readFileSync("./contacts.json", "utf-8"));
+
+  // check valid email
+  if (!validator.isEmail(datas.email)) {
+    console.log(chalk.bgRed("Email invalid"));
+    return false;
+  }
+  // check phone number
+  if (!validator.isMobilePhone(datas.numPhone, "id-ID")) {
+    console.log(chalk.bgRed("Phone number invalid"));
+    return false;
+  } else if (contacts.find((contact) => contact.numPhone === datas.numPhone)) {
+    console.log(chalk.bgRed("Phone number already registered"));
+    return false;
+  }
+
   // add new contact to list
   contacts.push(datas);
 
@@ -35,13 +36,6 @@ const saveDatas = (name, email, numPhone) => {
   fs.writeFileSync("./contacts.json", JSON.stringify(contacts));
 
   // give notification and current contact list
-  console.log("Success!");
+  console.log(chalk.bgGreen("Success!"));
   console.log(contacts);
-
-  rl.close();
-};
-
-module.exports = {
-  writeQuestion,
-  saveDatas,
 };
