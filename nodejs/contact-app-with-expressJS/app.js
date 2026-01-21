@@ -1,31 +1,24 @@
 const express = require("express");
-const morgan = require("morgan");
+const { loadContacts, findDetail } = require("./utils/functions");
 const app = express();
 const port = 3000;
 
 // use ejs
 app.set("view engine", "ejs");
 
-// user-defined middleware - application level middleware
-app.use("/", (req, res, next) => {
-  console.log(Date.now());
-  next();
-});
-
 // built-in middleware
 app.use(express.static("public"));
 
-// third-party middleware
-app.use(morgan("dev"));
-
 app.get("/", (req, res) => {
   // display generic file
-  const datas = [
-    { name: "Baron", age: 18 },
-    { name: "Yoru", age: 28 },
-    { name: "Yor", age: 30 },
-  ];
+  const datas = loadContacts();
   res.render("index", { title: "Home", datas });
+});
+
+app.get("/data/:name", (req, res) => {
+  // display data details
+  const detail = findDetail(req.params.name);
+  res.render("detail", { title: "Data Detail", detail });
 });
 
 app.get("/about", (req, res) => {
