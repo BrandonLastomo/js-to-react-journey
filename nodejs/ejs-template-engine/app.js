@@ -5,14 +5,13 @@ const port = 3000;
 // use ejs
 app.set("view engine", "ejs");
 
-const datas = [
-  { name: "Baron", age: 18 },
-  { name: "Yoru", age: 28 },
-  { name: "Yor", age: 30 },
-];
-
 app.get("/", (req, res) => {
   // display generic file
+  const datas = [
+    { name: "Baron", age: 18 },
+    { name: "Yoru", age: 28 },
+    { name: "Yor", age: 30 },
+  ];
   res.render("index", { title: "Home", datas });
 });
 
