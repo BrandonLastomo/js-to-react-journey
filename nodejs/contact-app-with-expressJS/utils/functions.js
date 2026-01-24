@@ -20,38 +20,20 @@ export const loadContacts = () => {
 };
 
 // write datas to file
-export const saveDatas = (name, email, numPhone) => {
+export const addData = (name, email, phone) => {
   const contacts = loadContacts();
   // get answers
   const datas = {
     name,
     email,
-    numPhone,
+    phone,
   };
-
-  // check valid email
-  if (!validator.isEmail(datas.email)) {
-    console.log(chalk.bgRed("Email invalid"));
-    return false;
-  }
-  // check phone number
-  if (!validator.isMobilePhone(datas.numPhone, "id-ID")) {
-    console.log(chalk.bgRed("Phone number invalid"));
-    return false;
-  } else if (contacts.find((contact) => contact.numPhone === datas.numPhone)) {
-    console.log(chalk.bgRed("Phone number already registered"));
-    return false;
-  }
 
   // add new contact to list
   contacts.push(datas);
 
   // change json obj into string and overwrite old list with new list
-  fs.writeFileSync("./contacts.json", JSON.stringify(contacts));
-
-  // give notification and current contact list
-  console.log(chalk.bgGreen("Success!"));
-  console.log(contacts);
+  fs.writeFileSync("./data/contacts.json", JSON.stringify(contacts));
 };
 
 export const displayList = () => {
