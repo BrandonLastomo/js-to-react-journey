@@ -1,7 +1,5 @@
 // module prep
 import fs, { existsSync } from "node:fs";
-// import validator from "validator";
-// import chalk from "chalk";
 
 // check contact folder
 if (!existsSync("./data")) {
@@ -44,7 +42,7 @@ export const displayList = () => {
   });
 };
 
-export const findDetail = (name) => {
+export const findContact = (name) => {
   const contacts = loadContacts();
   const contact = contacts.find(
     (contact) => contact.name.toLowerCase() === name.toLowerCase(),
@@ -52,11 +50,14 @@ export const findDetail = (name) => {
   return contact;
 };
 
-export const displayDetail = (name) => {
+export const findPhone = (phone) => {
   const contacts = loadContacts();
-  const contact = contacts.find(
-    (contact) => contact.name.toLowerCase() === name.toLowerCase(),
-  );
+  const contact = contacts.find((contact) => contact.phone == phone);
+  return contact;
+};
+
+export const displayDetail = (name) => {
+  const contact = findContact(name);
   if (contact) {
     console.log(chalk.bgGreen(`Contact Detail of ${contact.name}: `));
     console.log(`${contact.name}, ${contact.email}, ${contact.numPhone}`);
