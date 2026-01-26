@@ -3,6 +3,7 @@ const { check, validationResult } = require("express-validator");
 const {
   loadContacts,
   findContact,
+  editContact,
   deleteContact,
   addData,
   findPhone,
@@ -67,6 +68,41 @@ app.post(
 
     addData(req.body.name, req.body.phone, req.body.email);
     req.flash("msg", "Contact added");
+    res.redirect("/");
+  },
+);
+
+app.get("/data/update/:name", (req, res) => {
+  const contact = findContact(req.params.name);
+  res.render("edit-contact", { title: "Edit Contact", contact });
+});
+
+app.post(
+  "/data/update",
+  [
+    check("email", "Invalid email").isEmail(),
+    check("phone", "Invalid phone").isMobilePhone("id-ID"),
+    check("phone").custom((value, { req }) => {
+      const contact = findPhone(value);
+      if (contact && value != req.body.oldPhone) {
+        throw new Error("This phone number has registered");
+      }
+      return true;
+    }),
+  ],
+  (req, res) => {
+    const result = validationResult(req); // result filled only if error occured
+    if (!result.isEmpty()) {
+      const contact = findPhone(req.body.oldPhone);
+      return res.render("edit-contact", {
+        title: "Edit Contact",
+        errors: result.array(),
+        contact,
+      });
+    }
+
+    editContact(req.body);
+    req.flash("msg", "Contact edited");
     res.redirect("/");
   },
 );

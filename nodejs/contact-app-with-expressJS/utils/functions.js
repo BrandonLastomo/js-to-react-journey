@@ -1,5 +1,6 @@
 // module prep
 import fs, { existsSync } from "node:fs";
+import { type } from "node:os";
 
 // check contact folder
 if (!existsSync("./data")) {
@@ -56,15 +57,14 @@ export const findPhone = (phone) => {
   return contact;
 };
 
-export const displayDetail = (name) => {
-  const contact = findContact(name);
-  if (contact) {
-    console.log(chalk.bgGreen(`Contact Detail of ${contact.name}: `));
-    console.log(`${contact.name}, ${contact.email}, ${contact.numPhone}`);
-  } else {
-    console.log(chalk.bgRed("Name not found"));
-    return false;
-  }
+export const editContact = (newData) => {
+  const contacts = loadContacts();
+  const contactIndex = contacts.findIndex(
+    (contact) => contact.phone == newData.oldPhone,
+  );
+  delete newData.oldPhone;
+  contacts.splice(contactIndex, 1, newData);
+  fs.writeFileSync("./data/contacts.json", JSON.stringify(contacts));
 };
 
 export const deleteContact = (name) => {
