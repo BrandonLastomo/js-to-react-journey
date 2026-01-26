@@ -1,1 +1,9 @@
-[{"name":"baron","phone":"081212121212"},{"name":"Baron Forger","email":"081211112222","phone":"baron@mail.com"},{"name":"Yotsuba","email":"081288889999","phone":"yotsuba@mail.com"}]
+[
+  { "name": "baron", "phone": "081212121212" },
+  {
+    "name": "Baron Forger",
+    "phone": "081211112222",
+    "email": "baron@mail.com"
+  },
+  { "name": "Yotsuba", "phone": "081288889999", "email": "yotsuba@mail.com" }
+]

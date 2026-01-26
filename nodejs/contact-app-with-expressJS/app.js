@@ -62,7 +62,6 @@ app.post(
         title: "Add Contact",
         errors: result.array(),
       });
-      // console.log(result);
     }
 
     addData(req.body.name, req.body.phone, req.body.email);

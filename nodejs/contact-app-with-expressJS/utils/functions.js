@@ -18,13 +18,13 @@ export const loadContacts = () => {
 };
 
 // write datas to file
-export const addData = (name, email, phone) => {
+export const addData = (name, phone, email) => {
   const contacts = loadContacts();
   // get answers
   const datas = {
     name,
-    email,
     phone,
+    email,
   };
 
   // add new contact to list
