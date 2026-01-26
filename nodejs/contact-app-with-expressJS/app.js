@@ -3,6 +3,7 @@ const { check, validationResult } = require("express-validator");
 const {
   loadContacts,
   findContact,
+  deleteContact,
   addData,
   findPhone,
 } = require("./utils/functions");
@@ -69,6 +70,18 @@ app.post(
     res.redirect("/");
   },
 );
+
+app.get("/data/delete/:name", (req, res) => {
+  const contact = findContact(req.params.name);
+  if (!contact) {
+    res.status(404);
+    res.send("404");
+  } else {
+    deleteContact(req.params.name);
+    req.flash("msg", "Contact deleted");
+    res.redirect("/");
+  }
+});
 
 app.get("/data/:name", (req, res) => {
   // display data details

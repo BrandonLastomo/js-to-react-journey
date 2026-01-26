@@ -72,12 +72,6 @@ export const deleteContact = (name) => {
   const contactIndex = contacts.findIndex(
     (contact) => contact.name.toLowerCase() === name.toLowerCase(),
   );
-  if (contactIndex) {
-    contacts.splice(contactIndex, 1);
-    fs.writeFileSync("./contacts.json", JSON.stringify(contacts));
-    console.log(chalk.bgGreen("Contact deleted"));
-  } else {
-    console.log(chalk.bgRed("Name not found"));
-    return false;
-  }
+  contacts.splice(contactIndex, 1);
+  fs.writeFileSync("./data/contacts.json", JSON.stringify(contacts));
 };
