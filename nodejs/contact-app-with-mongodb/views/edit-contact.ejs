@@ -12,7 +12,8 @@
                 </ul>
             </div>
         <% } %>
-        <form action="/data/update" method="post">
+        <form action="/data?_method=PUT" method="post">
+          <input type="hidden" name="_id" value="<%= contact._id %>">
           <input type="hidden" name="oldPhone" value="<%= contact.phone %>">
           <div class="form-group mb-3">
             <label for="name">Name</label>
