@@ -1,0 +1,46 @@
+<%- include('layouts/header') -%>
+<%- include('layouts/nav') -%>
+<div class="container mt-5">
+  <h1><%= title %> Page with EJS</h1>
+  <a href="/data/add" class="btn btn-primary">Add new contact</a>
+  <h3>People Datas:</h3>
+  <% if(msg.length != 0) { %>
+    <div class="alert alert-success" role="alert">
+      <%= msg %>
+    </div>
+  <% } %>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if(datas.length === 0) { %>
+        <tr>
+          <td colspan="4">
+            <div class="alert alert-danger" role="alert">
+              No data found!
+            </div>
+          </td>
+        </tr>
+      <% } %>
+    <% datas.forEach((data, i)=>{ %>
+      <tr>
+        <th scope="row"><%=++i%></th>
+        <td> <%= data.name %></td>
+        <td> <%= data.phone %></td>
+        <td>
+          <a href="/data/<%= data.name %>" data-bs-target="#detailModal">
+            <i class="bi bi-info-circle"></i>
+          </a>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('layouts/footer') -%>
