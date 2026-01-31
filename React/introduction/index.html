@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Intro</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- change type="text/javascript" to type="text/babel or jsx" to handle JSX -->
+    <script type="text/babel">
+      const container = document.getElementById("root");
+      const root = ReactDOM.createRoot(container);
+
+      // Props method 1 (object)
+      //   function Header({ props }) { // component
+      //     return (
+      //       <h1>{props.greeting ? props.greeting : "Hello World"} Using React</h1>
+      //     );
+      //   }
+
+      // Props method 2 (destructuring)
+      function Header({ greeting }) {
+        // component
+        return <h1>{greeting ? greeting : "Hello World"} Using React</h1>;
+      }
+
+      //   function HomePage() { // basic component
+      //     return (
+      //       <>
+      //         <Header greeting="Good Morning" />
+      //         <Header />
+      //       </>
+      //     );
+      //   }
+
+      function HomePage() {
+        // State and Hooks
+        const [likes, setLikes] = React.useState(0);
+
+        // Function to run Hooks
+        function handleClick() {
+          setLikes(likes + 1);
+        }
+        // component with loop
+        const personas = ["Orpheus", "Arsene", "Izanagi"];
+        return (
+          <>
+            <Header greeting="Good Morning" />
+            <ul>
+              {personas.map(
+                (
+                  persona, // () instead of {} to use JSX
+                ) => (
+                  <li key={persona}>{persona}</li>
+                ),
+              )}
+            </ul>
+            <button onClick={handleClick}>Like: ({likes})</button>
+          </>
+        );
+      }
+
+      // calling component
+      root.render(<HomePage />);
+    </script>
+  </body>
+</html>
